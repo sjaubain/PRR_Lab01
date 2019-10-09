@@ -17,12 +17,12 @@ func New(offset int) clock {
 	return c
 }
 
-// Return current local time in milliseconds
-func (c clock) GetTimeMillis() int {
+// Return current local time in second elapsed since 1st january 1970
+func (c clock) GetTime() int {
 	return int (time.Now().Unix()) + c.offset
 }
 	
-func (c clock) ToString(timeMillis int) string {
-	return "TODO : time to string"
+func ToString(unixTime int) string {
+	return time.Unix(int64 (unixTime), 0).String()
 }
 	

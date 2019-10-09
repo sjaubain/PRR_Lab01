@@ -2,18 +2,19 @@ package main
 
 import (
 
-	"fmt"
 	"log"
 	"net"
 	"runtime"
 	"strings"
-	//"strconv"
+	"strconv"
+	"math/rand"
 	//"bufio"
 	//"math/big"
 	//"bytes"
 	
 	"golang.org/x/net/ipv4"
 	"lab01/protocol"
+	"lab01/clock"
 )
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	// Second step : delay_request (point to point)
 }
 
+var slaveClock = clock.New(rand.Intn(clock.MAX_OFFSET))
 
 func masterReader() {
 
@@ -44,6 +46,7 @@ func masterReader() {
 		log.Fatal(err)
 	}
 	
+	var currentId string
 	buf := make([]byte, 1024)
 	for {
 		n, _, err := conn.ReadFrom(buf) 
@@ -51,13 +54,34 @@ func masterReader() {
 			log.Fatal(err)
 		}	
 		
+		// Look for SYNC
 		if strings.Compare(protocol.SYNC, string(buf[:len(protocol.SYNC)])) == 0 {
-			fmt.Printf("Recieved SYNC with id : %s\n", buf[len(protocol.SYNC):n])
+			currentId = string(buf[len(protocol.SYNC):n])
+			log.Printf("Received SYNC with id : %s\n", currentId)
+		}
+		//tSlave := slaveClock.GetTime()
+		
+		n, _, err = conn.ReadFrom(buf) 
+		if err != nil {
+			log.Fatal(err)
+		}	
+		
+		// Look for FOLLOW_UP and check if id is the same as in SYNC message
+		if strings.Compare(protocol.FOLLOW_UP, string(buf[:len(protocol.FOLLOW_UP)])) == 0 {
+		
+			idNbDigits, _ := strconv.Atoi(currentId)
+			idNbDigits = idNbDigits / 10 + 1
+			if strings.Compare(currentId, string(buf[n - idNbDigits:n])) == 0 {
+				unixTime, _ := strconv.Atoi(string(buf[len(protocol.FOLLOW_UP) : n - idNbDigits]))
+				log.Printf("Received FOLLOW_UP correctly with Unix time : %s", clock.ToString(unixTime))
+			}
 		}
 		
 		//fmt.Println(string(buf[:n]))
 	}
 }
+
+// TODO : function readMulticast()
 
 func delayRequest() {
 }

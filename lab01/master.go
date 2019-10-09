@@ -28,21 +28,25 @@ func main() {
 		// SYNC
 		payload := protocol.SYNC + strconv.Itoa(id)
 		_, err := conn.Write([]byte(payload))
-		
-		// FOLLOW_UP
-		//tMaster := masterClock.GetTimeMillis()
-		log.Println("sent SYNC to multicast address\n")
-		
-		// Convert timeMillis (int) to byte array
-		//_, err = conn.Write([]byte(strconv.Itoa(tMaster)))
-		
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer conn.Close()
+		log.Println("sent SYNC to multicast address")
+		
+		// FOLLOW_UP
+		tMaster := masterClock.GetTime()
+		payload = protocol.FOLLOW_UP + strconv.Itoa(tMaster) + strconv.Itoa(id)
+		_, err = conn.Write([]byte(payload))
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer conn.Close()
+		log.Println("sent FOLLOW_UP to multicast address")
 		
 		time.Sleep(k * time.Second)
 		id++
 	}
 }
 
+// TODO : function sendMulticast()
