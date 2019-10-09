@@ -1,2 +1,2 @@
 # PRR_Lab01
-Go programming
+Add folder lab01 to your GOPATH location
