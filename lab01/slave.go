@@ -83,11 +83,11 @@ func masterReader() {
 		tMaster, _ := strconv.Atoi(string(buf[len(protocol.FOLLOW_UP) : n - idNbDigits]))
 		tSlave := slaveClock.GetTime()
 		gap := tMaster - tSlave
-		
+
 		mutex.Lock()
-		slaveClock.SetOffset(slaveClock.GetTime() + gap)
+		slaveClock.SetOffset(gap)
 		mutex.Unlock()
-		
+				
 		if readyForDelayRequest == true {
 			// Ready to start delayRequest routine after first turn
 			c <- 1
@@ -135,7 +135,7 @@ func delayRequest() {
 		delay := tMaster - tSlave
 		
 		mutex.Lock()
-		slaveClock.SetOffset(slaveClock.GetTime() + delay)
+		slaveClock.SetOffset(delay)
 		mutex.Unlock()
 		
 		time.Sleep(4 * protocol.K * time.Second)
