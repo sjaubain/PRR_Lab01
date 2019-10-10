@@ -22,6 +22,10 @@ func (c clock) GetTime() int {
 	return int (time.Now().Unix()) + c.offset
 }
 	
+func (c clock) SetOffset(deltaT int) {
+	c.offset = deltaT
+}
+
 func ToString(unixTime int) string {
 	return time.Unix(int64 (unixTime), 0).String()
 }
