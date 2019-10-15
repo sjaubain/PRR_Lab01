@@ -142,6 +142,7 @@ func delayRequest() {
 		slaveClock.SetOffset(delay)
 		mutex.Unlock()
 		
+		// Here should be random wait, but just fixed short time for visualisation
 		time.Sleep(4 * protocol.K * time.Second)
 	}
 }
