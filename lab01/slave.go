@@ -83,12 +83,13 @@ func masterReader() {
 		}
 		
 
-		// for looking the difference between master and slave
-		time.Sleep(10*time.Second)
+		//latence
+		time.Sleep(protocol.LATENCE * time.Second)
 
 		// First time correction (t_master - t_slave)
 		tSlave := slaveClock.GetTime()
 		log.Printf("Slave time before first correction : %s\n", clock.ToString(tSlave));
+		
 		gap := tMaster - tSlave
 
 		mutex.Lock()
