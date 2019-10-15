@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"golang.org/x/net/ipv4"
-	"lab01/protocol"
-	"lab01/clock"
+	"PRR_Lab01/lab01/protocol"
+	"PRR_Lab01/lab01/clock"
 )
 
 var c = make(chan int)
@@ -81,7 +81,11 @@ func masterReader() {
 				log.Printf("Received FOLLOW_UP with correct id\n")
 			}
 		}
-			
+		
+
+		// for looking the difference between master and slave
+		time.Sleep(10*time.Second)
+
 		// First time correction (t_master - t_slave)
 		tSlave := slaveClock.GetTime()
 		log.Printf("Slave time before first correction : %s\n", clock.ToString(tSlave));

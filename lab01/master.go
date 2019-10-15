@@ -7,8 +7,8 @@ import (
 	"log"
 	"strconv"
 
-	"lab01/protocol"
-	"lab01/clock"
+	"PRR_Lab01/lab01/protocol"
+	"PRR_Lab01/lab01/clock"
 )
 
 var masterClock = clock.New(0)
@@ -47,7 +47,7 @@ func multicast() {
 			log.Fatal(err)
 		}
 		defer conn.Close()
-		log.Println("sent FOLLOW_UP to multicast address")
+		log.Println("sent FOLLOW_UP to multicast address, " + clock.ToString(tMaster))
 		
 		time.Sleep(protocol.K * time.Second)
 		id++
