@@ -7,3 +7,4 @@ const SYNC = "SYNC"
 const DELAY_REQUEST = "DELAY_REQUEST"
 const DELAY_RESPONSE = "DELAY_RESPONSE"
 const K = 4
+const SLAVE_ID_LENGTH = 1

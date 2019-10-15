@@ -41,7 +41,7 @@ func masterReader() {
 	}
 	var interf *net.Interface
 	if runtime.GOOS == "darwin" {
-		interf, _ = net.InterfaceByName("e2n0")
+		interf, _ = net.InterfaceByName("en0")
 	}
 
 	if err = p.JoinGroup(interf, addr); err != nil { // listen on ip multicast
@@ -71,8 +71,11 @@ func masterReader() {
 			log.Fatal(err)
 		}	
 		
-		// Look for FOLLOW_UP and check if id is the same as in SYNC message
+		// Register master time after receiving SYNC
 		idNbDigits := len(currentId)
+		tMaster, _ := strconv.Atoi(string(buf[len(protocol.FOLLOW_UP) : n - idNbDigits]))
+		
+		// Look for FOLLOW_UP and check if id is the same as in SYNC message
 		if strings.Compare(protocol.FOLLOW_UP, string(buf[:len(protocol.FOLLOW_UP)])) == 0 {
 			if strings.Compare(currentId, string(buf[n - idNbDigits:n])) == 0 {
 				log.Printf("Received FOLLOW_UP with correct id\n")
@@ -80,13 +83,14 @@ func masterReader() {
 		}
 			
 		// First time correction (t_master - t_slave)
-		tMaster, _ := strconv.Atoi(string(buf[len(protocol.FOLLOW_UP) : n - idNbDigits]))
 		tSlave := slaveClock.GetTime()
+		log.Printf("Slave time before first correction : %s\n", clock.ToString(tSlave));
 		gap := tMaster - tSlave
 
 		mutex.Lock()
 		slaveClock.SetOffset(gap)
 		mutex.Unlock()
+		log.Printf("Slave time after first correction : %s\n", clock.ToString(slaveClock.GetTime()));
 				
 		if readyForDelayRequest == true {
 			// Ready to start delayRequest routine after first turn
@@ -95,8 +99,6 @@ func masterReader() {
 		}
 	}
 }
-
-// TODO : function readMulticast()
 
 // Second step (point to point UDP)
 func delayRequest() {
@@ -110,7 +112,9 @@ func delayRequest() {
 	defer conn.Close()
 			
 	buf := make([]byte, 1024)
-	var slaveId = 1
+	
+	// Generate a random slave id (Here, we just have a digit)
+	var slaveId = rand.Intn(9);
 	for { 
 
 		tSlave := slaveClock.GetTime() // Local delayRequest time
@@ -123,9 +127,9 @@ func delayRequest() {
 			log.Fatal(err)
 		}
 		
-		// Check if id is correct
+		// Look for delay_response and check if id is correct 
 		if strings.Compare(protocol.DELAY_RESPONSE, string(buf[:len(protocol.DELAY_RESPONSE)])) == 0 {
-			if strings.Compare(strconv.Itoa(slaveId), string(buf[n - 1 : n])) == 0 {
+			if strings.Compare(strconv.Itoa(slaveId), string(buf[n - protocol.SLAVE_ID_LENGTH : n])) == 0 {
 				log.Printf("Received DELAY_RESPONSE with correct id\n")
 			}
 		}

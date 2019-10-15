@@ -73,7 +73,7 @@ func slaveReader() {
 		}
 		
 		tMaster := masterClock.GetTime()
-		slaveId := string(buf[n - 1 : n])
+		slaveId := string(buf[n - protocol.SLAVE_ID_LENGTH : n])
 		payload := protocol.DELAY_RESPONSE + strconv.Itoa(tMaster) + slaveId
 		log.Printf("received DELAY_REQUEST from slave : %s\n", slaveId)
 		_, err = conn.WriteTo([]byte(payload), slaveAddr)
@@ -85,4 +85,3 @@ func slaveReader() {
 	}
 }
 
-// TODO : function sendMulticast()
