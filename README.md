@@ -50,7 +50,7 @@ Point to point packet master -> slave
     [ DELAY_RESPONSE | MASTER_TIME | SLAVE_ID ]
     
 
-Pour réaliser ce laboratoire, nous nous sommes beaucoup inspirés des exemples qui nous ont été données durant le cours de **programmation répartie**.  Nous avons sépare notre code en quatre parties. 
+Pour réaliser ce laboratoire, nous nous sommes beaucoup inspirés des exemples qui nous ont été données durant le cours de **programmation répartie**.  Nous avons séparé notre code en quatre parties. 
 
 - ***master***
 - ***slave***
@@ -59,7 +59,7 @@ Pour réaliser ce laboratoire, nous nous sommes beaucoup inspirés des exemples 
 
 ### Master
 
-Comme voulu dans l'énoncé, le master diffuse en multicast à intervalle régulier la SYNC et le FOLLOW UP et en parallèle, il se met en écoute pour une possibilité de synchronisation avec un slave afin de corriger le délai de transmission.
+> Comme voulu dans l'énoncé, le master diffuse en multicast à intervalle régulier la SYNC et le FOLLOW UP, et en parallèle, il se met en écoute pour une possibilité de synchronisation avec un slave afin de corriger le délai de transmission.
 
 ### Slave
 
@@ -69,11 +69,11 @@ Comme voulu dans l'énoncé, le master diffuse en multicast à intervalle régul
 
 ### Protocol
 
-Cette partie sert a définir toutes les contantes nécessaire pour les configurations du laboratoire.
+> Cette partie sert a définir toutes les contantes nécessaire pour les configurations du laboratoire.
 
 ### Clock
 
-Cette "classe" permet de simuler d'éventuelles latences afin de pouvoir tester notre laboratoire avec des horloges "virtuelles".
+> Cette "classe" permet de simuler d'éventuelles latences afin de pouvoir tester notre laboratoire avec des horloges "virtuelles".
 
 
 
