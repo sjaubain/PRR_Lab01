@@ -1,3 +1,11 @@
+/* 
+ * File:   slave.go
+ * Author: Teklehaimanot Robel - Jobin Simon 
+ *
+ * Programm to run a slave that listen to a master
+ * in order to synchronize its own clock
+ */
+ 
 package main
 
 import (

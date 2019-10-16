@@ -1,3 +1,10 @@
+/* 
+ * File:   protocol.go
+ * Author: Teklehaimanot Robel - Jobin Simon 
+ *
+ * All constants needed in slave.go and master.go
+ */
+
 package protocol
 
 const MULTICAST_ADDR = "224.0.0.1:6666"

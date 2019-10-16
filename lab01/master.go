@@ -1,3 +1,12 @@
+/* 
+ * File:   master.go
+ * Author: Teklehaimanot Robel - Jobin Simon 
+ *
+ * Programm to run a master, which diffuse packets 
+ * to listening slaves to synchronize them with its 
+ * clock
+ */
+
 package main
 
 import (

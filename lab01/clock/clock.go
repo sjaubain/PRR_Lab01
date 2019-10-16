@@ -1,3 +1,12 @@
+/* 
+ * File:   clock.go
+ * Author: Teklehaimanot Robel - Jobin Simon 
+ *
+ * Implements a clock with a virtual offset 
+ * used by slaves and master to represent
+ * local times
+ */
+
 package clock
 
 import (
