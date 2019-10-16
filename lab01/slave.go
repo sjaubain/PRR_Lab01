@@ -118,7 +118,7 @@ func delayRequest() {
 			
 	buf := make([]byte, 1024)
 	
-	// Generate a random slave id (Here, we just have a digit)
+	// Generate a random slave id (Here, we just have 4 digit)
 	var slaveId = id();
 	for { 
 
@@ -144,7 +144,7 @@ func delayRequest() {
 		}
 		
 		// Second time correction
-		tMaster, _ := strconv.Atoi(string(buf[len(protocol.DELAY_RESPONSE) : n - 1]))
+		tMaster, _ := strconv.Atoi(string(buf[len(protocol.DELAY_RESPONSE) : n - protocol.SLAVE_ID_LENGTH]))
 		delay := (tMaster - tSlave) / 2
 		
 		mutex.Lock()
