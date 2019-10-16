@@ -22,6 +22,7 @@ var mutex sync.Mutex
 
 func main() {
 	
+	rand.Seed(time.Now().UnixNano()) // Initialize rand
 	masterReader()
 
 }
@@ -125,7 +126,6 @@ func delayRequest() {
 		
 		// Simulate latency : time requested for send request + get response (2 * latency time)
 		time.Sleep(2 * protocol.LATENCE * time.Second)
-		log.Printf("Slave time before second correction : %s\n", clock.ToString(tSlave));
 		
 		payload := protocol.DELAY_REQUEST + strconv.Itoa(slaveId)
 		_, _ = conn.Write([]byte(payload))
@@ -150,7 +150,6 @@ func delayRequest() {
 		mutex.Lock()
 		slaveClock.SetOffset(delay)
 		mutex.Unlock()
-		log.Printf("Slave time after second correction : %s\n", clock.ToString(slaveClock.GetTime()));
 		
 		// Here should be random wait, but just fixed short time for visualisation
 		time.Sleep(4 * protocol.K * time.Second)
