@@ -12,9 +12,9 @@ Auteurs: Jobin Simon, Teklehaimanot Robel
 
 ## Installation 
 
-Cloner le repository git qui se trouve dans le lien qui suit: https://github.com/sjaubain/PRR_Lab01. Pour pouvoir builder correctement, il vous faut cloner ce repository dans le GOPATH.
+Il vous faut dézipper le dossier dans le GOPATH pour pouvoir builder correctement.
 
-Les prochaines étapes vous permettront de lancer Master et le/les slaves.
+*Les prochaines étapes vous permettront de lancer Master et le/les slaves.*
 
 Dans le dossier lab01, pour produire l'exécutable master.go
 
@@ -35,7 +35,7 @@ go build slave.go
 
 ## Réalisation
 
-Voici ce que le laboratoire doit effectué:
+Voici comment sont structurées les chaînes de caractères échangées. Cela permettra d'extraire correctement les informations voulues (Vérifier que des identifiants correspondent, connaître le code du message, obtenir l'heure du master etc...).
 
 Multicast packet master -> slave
 
@@ -50,7 +50,7 @@ Point to point packet master -> slave
     [ DELAY_RESPONSE | MASTER_TIME | SLAVE_ID ]
     
 
-Pour réaliser ce laboratoire, nous nous sommes beaucoup inspiré des exemples qui nous ai données durant le cours de **programmation répartie**.  Nous avons séparer notre code en quatre parties. 
+Pour réaliser ce laboratoire, nous nous sommes beaucoup inspirés des exemples qui nous ont été données durant le cours de **programmation répartie**.  Nous avons sépare notre code en quatre parties. 
 
 - ***master***
 - ***slave***
@@ -59,7 +59,7 @@ Pour réaliser ce laboratoire, nous nous sommes beaucoup inspiré des exemples q
 
 ### Master
 
-Comme voulu dans l'énoncé, le master diffuse en multicase à intervalle régulier la SYNC et le FOLLOW UP et en parralèlle, il se met en écoute pour une possibilité de synchronisation avec un slave afin de corriger le délai de transmission.
+Comme voulu dans l'énoncé, le master diffuse en multicast à intervalle régulier la SYNC et le FOLLOW UP et en parallèle, il se met en écoute pour une possibilité de synchronisation avec un slave afin de corriger le délai de transmission.
 
 ### Slave
 
@@ -73,7 +73,7 @@ Cette partie sert a définir toutes les contantes nécessaire pour les configura
 
 ### Clock
 
-Cette "classe" permet de simuler d'éventuel latence afin de pouvoir tester notre laboratoire.
+Cette "classe" permet de simuler d'éventuelles latences afin de pouvoir tester notre laboratoire avec des horloges "virtuelles".
 
 
 
