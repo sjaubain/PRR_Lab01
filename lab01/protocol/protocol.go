@@ -9,3 +9,19 @@ const DELAY_RESPONSE = "DELAY_RESPONSE"
 const K = 4
 const SLAVE_ID_LENGTH = 4 // We decided to assign a 4 digit random id to slaves
 const LATENCE = 5 // Simulated latency time in seconds
+
+/**
+*
+* Multicast packet master -> slaves :
+*
+*	[ SYNC | ID ] and [ FOLLOW_UP | MASTER_TIME | ID ]
+*
+* Point to point packet slave -> master : 
+*
+*   [ DELAY_REQUEST | SLAVE_ID ]
+*
+* Point to point packet master -> slave : 
+*
+*   [ DELAY_RESPONSE | MASTER_TIME | SLAVE_ID ]
+*
+*/
