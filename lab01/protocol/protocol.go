@@ -7,5 +7,5 @@ const SYNC = "SYNC"
 const DELAY_REQUEST = "DELAY_REQUEST"
 const DELAY_RESPONSE = "DELAY_RESPONSE"
 const K = 4
-const SLAVE_ID_LENGTH = 1
-const LATENCE = 10
+const SLAVE_ID_LENGTH = 4 // We decided to assign a 4 digit random id to slaves
+const LATENCE = 5 // Simulated latency time in seconds

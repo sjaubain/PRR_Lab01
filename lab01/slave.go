@@ -82,8 +82,7 @@ func masterReader() {
 			}
 		}
 		
-
-		//latence
+		// latence (simulate time requested to get message from master)
 		time.Sleep(protocol.LATENCE * time.Second)
 
 		// First time correction (t_master - t_slave)
@@ -119,10 +118,15 @@ func delayRequest() {
 	buf := make([]byte, 1024)
 	
 	// Generate a random slave id (Here, we just have a digit)
-	var slaveId = rand.Intn(9);
+	var slaveId = id();
 	for { 
 
 		tSlave := slaveClock.GetTime() // Local delayRequest time
+		
+		// Simulate latency : time requested for send request + get response (2 * latency time)
+		time.Sleep(2 * protocol.LATENCE * time.Second)
+		log.Printf("Slave time before second correction : %s\n", clock.ToString(tSlave));
+		
 		payload := protocol.DELAY_REQUEST + strconv.Itoa(slaveId)
 		_, _ = conn.Write([]byte(payload))
 		log.Printf("sent DELAY_REQUEST\n")
@@ -141,14 +145,25 @@ func delayRequest() {
 		
 		// Second time correction
 		tMaster, _ := strconv.Atoi(string(buf[len(protocol.DELAY_RESPONSE) : n - 1]))
-		delay := tMaster - tSlave
+		delay := (tMaster - tSlave) / 2
 		
 		mutex.Lock()
 		slaveClock.SetOffset(delay)
 		mutex.Unlock()
+		log.Printf("Slave time after second correction : %s\n", clock.ToString(slaveClock.GetTime()));
 		
 		// Here should be random wait, but just fixed short time for visualisation
 		time.Sleep(4 * protocol.K * time.Second)
 	}
 }
+
+// Generate a 4 digits random id
+func id() int {
+	id :=
+	rand.Intn(10) * 1000 +
+	rand.Intn(10) * 100 +
+	rand.Intn(10) * 10 + 
+	rand.Intn(10)
 	
+	return id
+}	
